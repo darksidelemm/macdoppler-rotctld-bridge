@@ -189,14 +189,6 @@ class MacDopplerUDP(object):
         Listen for incoming UDP packets, and pass them onto the parser
         """
 
-        # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # s.settimeout(1)
-        # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        # try:
-        #     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-        # except:
-        #     pass
-
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # UDP
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)

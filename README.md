@@ -1,10 +1,21 @@
 # MacDoppler UDP Broadcast Protocol to HamLib rotctld Bridge
 
-Listens for UDP Broadcast packets from MacDoppler, and controls a rotator via rotctld's absurdly simple control protocol.
+Listens for UDP Broadcast packets from [MacDoppler](https://www.dogparksoftware.com/MacDoppler.html), and controls a rotator via [rotctld's](https://manpages.ubuntu.com/manpages/trusty/man8/rotctld.8.html) absurdly simple network control protocol (`P az el\n`).
 
-Quick script, not well tested. Seems to mostly work.
+MacDoppler UDP broadcast packets are in the form:
+```
+00000001 Mark’s MacBook Pro [AzEl Rotor Report:Azimuth:39.00, Elevation:0.00, SatName:XW-2C]
+```
+(What an odd format...)
 
-What this doesn't do (yet):
+Quick script, not well tested. Seems to mostly work. I wrote this because the MacDoppler dev didn't seem inclined to add support for rotctld, which is a shame since it's a super simple protocol. Using this UDP broadcast method means there's no feedback into MacDoppler, so we can't use any of the more advanced rotator control features.
+
+I'm running rotctld on the same Raspberry Pi I use for my [SatNOGS](satnogs.org) station, and I start up rotctld to talk to my Rot2Prog with the command:
+```
+$ rotctld -m 901 -r /dev/rotator -s 600 -vvvvv -t 4533 -C az_resolution=2,el_resolution=2,post_write_delay=300
+```
+
+What this code doesn't do (yet):
 * Rate limit control updates (either through dropping controls, or through angle changes)
 * Handle rotator end-stops gracefully.
 
